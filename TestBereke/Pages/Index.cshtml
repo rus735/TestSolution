@@ -1,0 +1,153 @@
+﻿@page
+<style>
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #009879;
+            }
+</style>
+<table id="Table1" class="styled-table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Задание</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody id ="textin">
+    </tbody>
+</table>
+<input type="text" placeholder="Добавить задание" id="name">
+<input type="submit" onclick="AddTask()">
+<input id="btnClose" type="button" value="Закрыть задание" />
+<input id="btnDelete" type="button" value="Удалить задание" />
+<script>
+    $(document).ready(function () {
+        onchangeStatus();
+    });
+    function onchangeStatus() {
+        $.ajax({
+            type: "GET",
+            processData: false,
+            contentType: false,
+            url: '@Url.Action("GetTodoItems", "TodoItems")',
+            success: (data) => {
+                document.getElementById("textin").innerHTML = null;
+                for (i = 0; i < data.result.length; i++) {
+                    if (data.result[i].isComplete == true) {
+                        document.getElementById("textin").innerHTML += "<tr><td>" + data.result[i].id + "</td>" + "<td>" + data.result[i].name + "</td>" + "<td>Завершен</td><td><input type='checkbox'></td></tr>"
+                    }
+                    else {
+                        document.getElementById("textin").innerHTML += "<tr><td>" + data.result[i].id + "</td>" + "<td>" + data.result[i].name + "</td>" + "<td>Не завершен</td><td><input type='checkbox'></td></tr>"
+                    }
+                }
+            },
+            error: function (req, status, error) {
+                console.log(error);
+            }
+        })
+    }
+    function AddTask(){
+        const formData = new FormData()
+        const element1 = document.getElementById("name").value;
+        console.log(element1);
+        formData.append("Name", element1)
+        $.ajax({
+            type: "POST",
+            processData: false,
+            contentType: false,
+            url: '@Url.Action("CreateTodoItem", "TodoItems")',
+            data: formData,
+            success: (data) => {
+                onchangeStatus();
+            },
+            error: function (req, status, error) {
+                console.log(error);
+            }
+        })
+    }
+    $(function () {
+        const formData = new FormData()
+        $("#btnClose").click(function () {
+            $("#Table1 input[type=checkbox]:checked").each(function () {
+                var row = $(this).closest("tr")[0];
+                formData.append("Id", row.cells[0].innerHTML)
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+            });
+            $.ajax({
+                type: "PUT",
+                processData: false,
+                contentType: false,
+                url: '@Url.Action("UpdateTodoItem", "TodoItems")',
+                data: formData,
+                success: (data) => {
+                    onchangeStatus();
+                },
+                error: function (req, status, error) {
+                    console.log(error);
+                }
+            })
+            return false;
+        });
+    });
+    $(function () {
+        const formData = new FormData()
+        $("#btnDelete").click(function () {
+            $("#Table1 input[type=checkbox]:checked").each(function () {
+                var row = $(this).closest("tr")[0];
+                formData.append("Id", row.cells[0].innerHTML)
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+            });
+            $.ajax({
+                type: "DELETE",
+                processData: false,
+                contentType: false,
+                url: '@Url.Action("DeleteTodoItem", "TodoItems")',
+                data: formData,
+                success: (data) => {
+                    onchangeStatus();
+                },
+                error: function (req, status, error) {
+                    console.log(error);
+                }
+            })
+            return false;
+        });
+    });
+</script>
