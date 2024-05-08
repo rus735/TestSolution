@@ -1,10 +1,10 @@
 using DataManager.Models.Base;
 using DataManager.Models.EF;
 using Microsoft.EntityFrameworkCore;
-using TestBereke.Services;
+using TestSolution.Services;
 using Xunit;
 
-namespace BerekeXUnit
+namespace XUnitTest
 {
     public class UnitTest1
     {

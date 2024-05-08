@@ -1,9 +1,9 @@
 ﻿using DataManager.Models.Base;
 using Microsoft.EntityFrameworkCore;
-using TestBereke.Interfaces;
-using TestBereke.Services;
+using TestSolution.Interfaces;
+using TestSolution.Services;
 
-namespace TestBereke.Extensions
+namespace TestSolution.Extensions
 {
     public static class IServiceCollectionExtensions
     {

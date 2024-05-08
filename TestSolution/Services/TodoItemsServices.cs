@@ -2,9 +2,9 @@
 using DataManager.Models.EF;
 using DataManager.Models.FormData;
 using Microsoft.EntityFrameworkCore;
-using TestBereke.Interfaces;
+using TestSolution.Interfaces;
 
-namespace TestBereke.Services
+namespace TestSolution.Services
 {
     public class TodoItemsServices : ITodoItems
     {
@@ -25,6 +25,7 @@ namespace TestBereke.Services
             foreach (var item in todoItemDTO.Id)
             {
                 var todoItem = await _context.TodoItems.FirstOrDefaultAsync(c => c.Id == item);
+                if(todoItem == null) { return false; }
                 listTask.Add(todoItem);
             }
             

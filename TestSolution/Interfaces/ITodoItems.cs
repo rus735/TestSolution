@@ -1,7 +1,7 @@
 ﻿using DataManager.Models.EF;
 using DataManager.Models.FormData;
 
-namespace TestBereke.Interfaces
+namespace TestSolution.Interfaces
 {
     public interface ITodoItems
     {

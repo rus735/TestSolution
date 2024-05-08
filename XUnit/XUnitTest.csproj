@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataManager\DataManager.csproj" />
-    <ProjectReference Include="..\TestBereke\TestBereke.csproj" />
+    <ProjectReference Include="..\TestSolution\TestSolution.csproj" />
   </ItemGroup>
 
 </Project>

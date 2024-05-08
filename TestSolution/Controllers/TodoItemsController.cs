@@ -2,9 +2,9 @@ using DataManager.Models.Base;
 using DataManager.Models.EF;
 using DataManager.Models.FormData;
 using Microsoft.AspNetCore.Mvc;
-using TestBereke.Interfaces;
+using TestSolution.Interfaces;
 
-namespace TestBereke.Controllers
+namespace TestSolution.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
